@@ -4,3 +4,5 @@ matplotlib
 numpy
 pillow
 tensorboardX>=2.0
+shutil
+tqdm
