@@ -17,9 +17,9 @@ from torchvision import models, transforms
 
 
 class Model(object):
-    def __init__(self):
+    def __init__(self, to_load=True):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.model = models.vgg19(pretrained=True)
+        self.model = models.vgg19(pretrained=to_load)
         self.num_in_features = 25088
         self.hidden_layers = [256]
         self.num_out_features = 102
@@ -185,3 +185,22 @@ class Model(object):
     def save_model(self, _path):
         if not os.path.exists(_path):
             torch.save(self.model.state_dict(), _path)
+
+    def score_model(self, part='valid'):
+        correct = 0
+        total = 0
+        predicted_all = []
+        true_all = []
+        with torch.no_grad():
+            for inputs, labels in tqdm.notebook.tqdm(self.dataloaders[part]):
+                inputs = inputs.to(self.device)
+                labels = labels.to(self.device)
+                outputs = self.model(inputs)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+                predicted_all.extend(predicted)
+                true_all.extend(labels)
+        print('Accuracy of the network on the 10000 test images: %d %%' % (
+                100 * correct / total))
+        return predicted_all, true_all
