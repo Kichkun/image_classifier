@@ -4,7 +4,7 @@ import torch
 from torchvision import datasets, transforms
 
 
-class DataTransform():
+class DataTransform(object):
     def __init__(self, data_dir, _batch_size=4, _shuffle=True, _num_workers=4):
         self.data_transforms = {
             'train': transforms.Compose([
