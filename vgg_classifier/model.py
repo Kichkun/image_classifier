@@ -97,8 +97,9 @@ class Model(object):
 
         return (e.data.numpy().squeeze().tolist() for e in topk)
 
-    def train_model(self, dataloaders, dataset_sizes, criterion=nn.CrossEntropyLoss(), _lr=0.01, _momentum=0.9,_step_size=7, _gamma=0.1, num_epochs=25, st=0,
-                    save_model=True, _log_dir=None):
+    def train_model(self, dataloaders, dataset_sizes, criterion=nn.CrossEntropyLoss(), _lr=0.01, _momentum=0.9,
+                    _step_size=7, _gamma=0.1, num_epochs=25, st=0,
+                    save_model_folder=None, _log_dir=None):
         if _log_dir is not None:
             writer = SummaryWriter(_log_dir)
         optimizer = optim.SGD(self.model.parameters(), lr=_lr, momentum=_lr)
@@ -160,10 +161,10 @@ class Model(object):
 
                 print('{} Loss: {:.4f} Acc: {:.4f}'.format(
                     phase, epoch_loss, epoch_acc))
-                if save_model:
-                    s_pt = './{}_{}.pt'.format('vgg_pr', str(epoch))
+                if save_model_folder is not None:
+                    s_pt = os.path.join(save_model_folder, '{}_{}.pt'.format('vgg_pr', str(epoch)))
                     if not os.path.exists(s_pt):
-                        torch.save(self.model.state_dict(), s_pt)
+                        self.save_model(s_pt)
 
                 # deep copy the model
                 if phase == 'valid' and epoch_acc > best_acc:
@@ -179,3 +180,7 @@ class Model(object):
 
         # load best model weights
         self.model.load_state_dict(best_model_wts)
+
+    def save_model(self, _path):
+        if not os.path.exists(_path):
+            torch.save(self.model.state_dict(), _path)
