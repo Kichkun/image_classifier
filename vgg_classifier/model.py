@@ -100,6 +100,7 @@ class Model(object):
     def train_model(self, dataloaders, dataset_sizes, criterion=nn.CrossEntropyLoss(), _lr=0.01, _momentum=0.9,
                     _step_size=7, _gamma=0.1, num_epochs=25, st=0,
                     save_model_folder=None, _log_dir=None):
+        self.model.to(self.device)
         if _log_dir is not None:
             writer = SummaryWriter(_log_dir)
         optimizer = optim.SGD(self.model.parameters(), lr=_lr, momentum=_lr)
