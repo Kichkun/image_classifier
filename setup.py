@@ -16,6 +16,6 @@ setup(name='image_classifier',
       author='Kishkun Anastasia',
       author_email='',
       package_dir={},
-      packages=["vgg_classifier"],
+      packages=["image_classifier"],
       install_requires=install_requires
       )
