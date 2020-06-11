@@ -97,12 +97,12 @@ class Model(object):
 
         return (e.data.numpy().squeeze().tolist() for e in topk)
 
-    def train_model(self, dataloaders, dataset_sizes, criterion=nn.CrossEntropyLoss(), _lr=0.01, _momentum=0.9,
-                    scheduler=lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1), num_epochs=25, st=0,
+    def train_model(self, dataloaders, dataset_sizes, criterion=nn.CrossEntropyLoss(), _lr=0.01, _momentum=0.9,_step_size=7, _gamma=0.1, num_epochs=25, st=0,
                     save_model=True, _log_dir=None):
         if _log_dir is not None:
             writer = SummaryWriter(_log_dir)
         optimizer = optim.SGD(self.model.parameters(), lr=_lr, momentum=_lr)
+        scheduler = lr_scheduler.StepLR(optimizer, step_size=_step_size, gamma=_gamma)
         since = time.time()
 
         best_model_wts = copy.deepcopy(self.model.state_dict())
