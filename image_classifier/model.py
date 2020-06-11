@@ -186,13 +186,13 @@ class Model(object):
         if not os.path.exists(_path):
             torch.save(self.model.state_dict(), _path)
 
-    def score_model(self, part='valid'):
+    def score_model(self, dataloaders, part='valid'):
         correct = 0
         total = 0
         predicted_all = []
         true_all = []
         with torch.no_grad():
-            for inputs, labels in tqdm.notebook.tqdm(self.dataloaders[part]):
+            for inputs, labels in tqdm.notebook.tqdm(dataloaders[part]):
                 inputs = inputs.to(self.device)
                 labels = labels.to(self.device)
                 outputs = self.model(inputs)
