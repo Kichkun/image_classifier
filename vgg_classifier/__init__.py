@@ -1,2 +1,2 @@
-from .image_processor import Image_processor
+from .image_processor import DataTransform
 from .model import Model
