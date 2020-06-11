@@ -117,7 +117,6 @@ class Model(object):
             # Each epoch has a training and validation phase
             for phase in ['train', 'valid']:
                 if phase == 'train':
-                    scheduler.step()
                     self.model.train()  # Set model to training mode
                 else:
                     self.model.eval()  # Set model to evaluate mode
@@ -144,6 +143,7 @@ class Model(object):
                         if phase == 'train':
                             loss.backward()
                             optimizer.step()
+                            scheduler.step()
 
                     # statistics
                     running_loss += loss.item() * inputs.size(0)
