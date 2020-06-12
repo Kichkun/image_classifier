@@ -5,7 +5,7 @@ import shutil
 from tqdm import tqdm_notebook as tqdm
 
 class SplitFolder():
-    def __init__(self, folder, dataset_folder, _split=[0.7,0.15,0.15], class_names={0:'bad', 1:'bad', 2:'good'}):
+    def __init__(self, folder, dataset_folder, _split=[0.7,0.15,0.15], class_names={'0':'bad', '1':'bad', '2':'good'}):
         self.folder = folder
         self.dataset_folder = dataset_folder
 
@@ -22,8 +22,8 @@ class SplitFolder():
             if not os.path.exists(os.path.join(dataset_folder, part)):
                 os.mkdir(os.path.join(dataset_folder, part))
 
-        for key,val in tqdm(self._ids.items()):
-           for _id in val:
+        for key,val in self._ids.items():
+           for _id in tqdm(val):
                images = glob.glob(os.path.join(folder, f'{_id}*.jpg'))
                class_name = images[0].split('_')[-1].split('.')[0]
                if class_names is not None:
