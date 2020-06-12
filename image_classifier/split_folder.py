@@ -11,7 +11,7 @@ class SplitFolder():
 
         _ids = list(set([_file.split('_')[0] for _file in os.listdir(folder)]))
         self.dataset_length = len(_ids)
-        random.shuffle(self.ids)
+        random.shuffle(self._ids)
         train_len = int(self.dataset_length*_split[0])
         valid_len = int(self.dataset_length * _split[1])
         self._ids = {'train': _ids[:train_len],
