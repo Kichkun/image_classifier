@@ -17,12 +17,12 @@ from torchvision import models, transforms
 
 
 class Model(object):
-    def __init__(self, to_load=True):
+    def __init__(self, to_load=True, num_out_features = 102):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model = models.vgg19(pretrained=to_load)
         self.num_in_features = 25088
         self.hidden_layers = [256]
-        self.num_out_features = 102
+        self.num_out_features = num_out_features
         for param in self.model.parameters():
             param.requires_grad = False
 
