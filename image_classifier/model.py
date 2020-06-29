@@ -120,6 +120,7 @@ class Model(object):
                     self.model.train()  # Set model to training mode
                 else:
                     self.model.eval()  # Set model to evaluate mode
+                    self.score_model(dataloaders,'test')
 
                 running_loss = 0.0
                 running_corrects = 0
