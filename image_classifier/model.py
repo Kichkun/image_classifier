@@ -31,7 +31,7 @@ class Model(object):
         self.model.classifier = classifier
 
     def load_model(self, saved_model_path):
-        self.model.load_state_dict(torch.load(saved_model_path))
+        self.model.load_state_dict(torch.load(saved_model_path, map_location=self.device))
 
     def build_nn_classifier(self, dropout=0.25):
         classifier = nn.Sequential()
